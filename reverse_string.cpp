@@ -14,7 +14,7 @@ void reverseStr(string& str)
 
 int main()
 {
-    string s = "GeeksforGeeks";
+    string s = "ReverseString";
     stack<char> st;
     for (char x : s)
         st.push(x);
