@@ -23,7 +23,7 @@ int main()
 
      cout << " The reverse of the number is: " << rev << endl;
 
-     if (n == rev)
+     if (num == rev)
          cout << " The number is a palindrome.";
      else
          cout << " The number is not a palindrome.";
