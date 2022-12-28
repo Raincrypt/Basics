@@ -12,6 +12,21 @@ class node{
     }
 };
 
+node* reverse(node* head){
+  node* prevptr = NULL;
+  node* currentptr = head;
+  node* nextptr;
+  
+  while(currentptr!=NULL){
+    nextptr = currentptr->next;
+    currentptr->next = prevptr;
+    
+    prevptr = currentptr;
+    currentptr = nextptr;
+  }
+  return prevptr;
+}
+
 void display(node* head){
     node* temp = head;
     while(temp != NULL){
@@ -51,5 +66,7 @@ int main()
     insertAtTail(head, 4);
     insertAtHead(head, 0);
     display(head);
+    node* rev = reverse(head);
+    display(rev);
     return 0;
 }
