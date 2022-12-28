@@ -1,20 +1,25 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
-     int n, num, digit, rev = 0;
-
-     cout << "Enter a positive number: ";
-     cin >> num;
-
-     n = num;
+int reverseNum(int num){
+     int n = num, rev = 0, digit;
 
      while (num > 0){
          digit = num % 10;
          rev = (rev * 10) + digit;
          num = num / 10;
      } 
+     return rev;
+}
+
+int main()
+{
+     int num, rev = 0;
+
+     cout << "Enter a positive number: ";
+     cin >> num;
+
+     rev = reverseNum(num);
 
      cout << " The reverse of the number is: " << rev << endl;
 
