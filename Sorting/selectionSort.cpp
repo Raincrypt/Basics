@@ -1,6 +1,12 @@
 #include<iostream>
 using namespace std;
 
+void printArray(int arr[]){
+    for(int i = 0; i < 6; i++){
+        cout << arr[i] << " ";
+    }
+}
+
 void selectionSort(int arr[], int n){
   
 }
