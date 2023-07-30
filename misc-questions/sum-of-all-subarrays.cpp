@@ -18,10 +18,8 @@ void sumOfAllSubarrays(int arr[], int n){
     int result = 0;
     for(int i = 0; i < n ;i++){
         int sum = 0;
-        cout << "Sub-Array: ";
-        displayArr(arr, n, i);
         for(int j = i; j < n; j ++){
-            cout << "Sum of ";
+            cout << "Sum of Sub-Array: ";
             displayArr(arr, j+1, i);
             sum = sum + arr[j];
             cout << sum << endl;
