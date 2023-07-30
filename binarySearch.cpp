@@ -1,5 +1,4 @@
 // Always Applied to a sorted array
-
 #include <iostream>
 using namespace std;
 
@@ -24,26 +23,24 @@ int binarySearch(int arr[], int size, int target){
     int left = 0;
     int right = size - 1;
     
-    while(left < right){
+    while(left <= right){
         int mid = (left + right) / 2;
-        if(arr[mid]!=target){
-            if(target > arr[mid]){
-                left = mid;
-                mid = (left + right)/2 + 1;
-                cout << "element should be between: "<< arr[left] << " and " << arr[right] << endl;
-                if(target == arr[mid]) return mid;
-                left+=1;
-            }
-            else if(target < arr[mid]){
-                right = mid;
-                mid = (left + right)/2 + 1;
-                cout << "element should be between: "<< arr[left] << " and " << arr[right] << endl;
-                if(target == arr[mid]) return mid;
-                right-=1;
-            }
-            else return -1;
+        if(arr[mid]==target){
+            cout << "Position: " << mid << endl;
+            return 1;
         }
-        else return 1;
+        else if(target > arr[mid]){
+            left = mid + 1;
+            cout << "Position: " << left << ", " << right << endl;
+            cout << "element should be between: "<< arr[left] << " and " << arr[right] << endl << endl;
+            
+        }
+        else if(target < arr[mid]){
+            right = mid - 1;
+            cout << "Position: " << left << ", " << right << endl;
+            cout << "element should be between: "<< arr[left] << " and " << arr[right] << endl << endl;
+            
+        }
     }
     return -1;
 }
@@ -51,9 +48,9 @@ int binarySearch(int arr[], int size, int target){
 int main() {
     int n = 10;
     int arr[n] = {4, 5, 2, 7, 10, 33, 22, 99, 0, 110};
-    int target = 23;
+    int target = 22;
     int result = binarySearch(arr, n, target);
-    if(result == -1) cout<<"Doesn't exist" << endl;
+    if(result == -1) cout<< target <<" Doesn't exist" << endl;
     else cout << target << " exists in the array." << endl;
     return 0;
 }
