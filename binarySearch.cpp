@@ -31,12 +31,14 @@ int binarySearch(int arr[], int size, int target){
             return 1;
         }
         else if(target > arr[mid]){
+            cout << "Comparison: " << arr[mid] << " < " << target <<endl;
             cout << "Position: " << left << ", " << right << endl;
             cout << "element should be between: "<< arr[left] << " and " << arr[right] << endl << endl;
             left = mid;
             left++;
         }
         else if(target < arr[mid]){
+            cout << "Comparison: " << arr[mid] << " > " << target <<endl;
             cout << "Position: " << left << ", " << right << endl;
             cout << "element should be between: "<< arr[left] << " and " << arr[right] << endl << endl;
             right = mid;
