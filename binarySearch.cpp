@@ -14,7 +14,7 @@ int* sort(int arr[], int size){
         }
         cout << arr[i] << " ";
     }
-    cout << endl;
+    cout << endl << endl;
     return arr;
 }
 
@@ -24,22 +24,23 @@ int binarySearch(int arr[], int size, int target){
     int right = size - 1;
     
     while(left <= right){
-        int mid = (left + right) / 2;
+        int mid = (right + left) / 2;
+        cout << "Mid Position: " << mid << endl;
         if(arr[mid]==target){
             cout << "Position: " << mid << endl;
             return 1;
         }
         else if(target > arr[mid]){
-            left = mid + 1;
             cout << "Position: " << left << ", " << right << endl;
             cout << "element should be between: "<< arr[left] << " and " << arr[right] << endl << endl;
-            
+            left = mid;
+            left++;
         }
         else if(target < arr[mid]){
-            right = mid - 1;
             cout << "Position: " << left << ", " << right << endl;
             cout << "element should be between: "<< arr[left] << " and " << arr[right] << endl << endl;
-            
+            right = mid;
+            right--;
         }
     }
     return -1;
