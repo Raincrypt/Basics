@@ -97,8 +97,10 @@ void insertInBettween(int val, int pos, Node *head)
     current->next = new_node;
 }
 
-void deleteHead(Node *&head){
-    if(!head) return;
+void deleteHead(Node *&head)
+{
+    if (!head)
+        return;
 
     Node *toDelete = head;
     head = head->next;
@@ -122,7 +124,7 @@ void deleteNode(int val, Node *&head)
         if (curr->data == val)
         {
             prev->next = curr->next;
-            delete curr; //to remove the node from memory
+            delete curr; // to remove the node from memory
             return;
         }
     }
@@ -147,6 +149,40 @@ int search(int key, Node *head)
     return -1; // Key not found in the list.
 }
 
+void reverse(Node *&head)
+{
+    Node *prev = NULL;
+    Node *curr = head;
+    Node *next;
+
+    while (curr != NULL)
+    {
+        // Reversing Link
+        next = curr->next;
+        curr->next = prev;
+
+        // updating pointers for next iteration
+        prev = curr;
+        curr = next;
+    }
+
+    head = prev;
+}
+
+Node *reverse_recursion(Node *&head)
+{
+
+    if (head == NULL || head->next == NULL)
+    {
+        return head;
+    }
+
+    Node *new_head = reverse_recursion(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return new_head;
+}
+
 int main()
 {
     Node *head = NULL;
@@ -168,6 +204,13 @@ int main()
 
     deleteNode(35, head);
     printLinkedList(head);
+
+    cout << "Reverse: " << endl;
+    reverse(head);
+    printLinkedList(head);
+
+    cout << "Reverse Recursion: " << endl;
+    printLinkedList(reverse_recursion(head));
 
     return 0;
 }
