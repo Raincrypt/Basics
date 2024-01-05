@@ -151,22 +151,21 @@ int search(int key, Node *head)
 
 void reverse(Node *&head)
 {
-    Node *prev = NULL;
-    Node *curr = head;
-    Node *next;
-
-    while (curr != NULL)
+    // Initialize a new reversed head, and one linked list to store reversed linked list from previous iteration.
+    Node *new_head = nullptr, *store = nullptr;
+    while (head)
     {
-        // Reversing Link
-        next = curr->next;
-        curr->next = prev;
-
-        // updating pointers for next iteration
-        prev = curr;
-        curr = next;
+        // Get one head
+        new_head = head;
+        // Update the head to next node
+        head = head->next;
+        
+        // Change the next to our stored linked list
+        new_head->next = store;
+        // Update the stored linked list
+        store = new_head;
     }
-
-    head = prev;
+    head = new_head;
 }
 
 Node *reverse_recursion(Node *&head)
