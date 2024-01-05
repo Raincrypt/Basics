@@ -1,72 +1,173 @@
 #include <iostream>
+#include <bits/stdc++.h>
+
 using namespace std;
 
-class node{
-  public:
+class Node
+{
+public:
     int data;
-    node* next;
-    
-    node(int val){
+    Node *next;
+
+    Node(int val)
+    {
         data = val;
         next = NULL;
     }
 };
 
-node* reverse(node* head){
-  node* prevptr = NULL;
-  node* currentptr = head;
-  node* nextptr;
-  
-  while(currentptr!=NULL){
-    nextptr = currentptr->next;
-    currentptr->next = prevptr;
-    
-    prevptr = currentptr;
-    currentptr = nextptr;
-  }
-  return prevptr;
-}
-
-void display(node* head){
-    node* temp = head;
-    while(temp != NULL){
-        cout << temp->data << " ";
-        temp = temp -> next;
+void printLinkedList(Node *head)
+{
+    while (head != NULL)
+    {
+        cout << head->data << " -> ";
+        head = head->next;
     }
-    cout << endl;
+    cout << "NULL" << endl;
 }
 
-void insertAtHead(node* &head, int val){
-    node* n = new node(val);
-    n->next = head;
-    head = n;
+int totalElements(Node *head)
+{
+    int count = 0;
+
+    while (head != NULL)
+    {
+        count++;
+        head = head->next;
+    }
+
+    return count;
 }
 
-void insertAtTail(node* &head, int val){
-    node* n = new node(val);
-    node* temp = head;
-    
-    if(head == NULL){
-        head = n;
+void insertAtHead(int val, Node *&head)
+{
+    Node *new_node = new Node(val);
+
+    if (head != NULL)
+        new_node->next = head;
+
+    head = new_node;
+}
+
+void insertAtTail(int val, Node *&head)
+{
+    Node *new_node = new Node(val);
+    Node *temp = head;
+
+    if (head == NULL)
+    {
+        head = new_node;
         return;
     }
-    
-    while(temp->next != NULL){
+
+    while (temp->next != NULL)
+    {
         temp = temp->next;
     }
-    temp->next = n;
+
+    temp->next = new_node;
+}
+
+void insertInBettween(int val, int pos, Node *head)
+{
+    Node *new_node = new Node(val);
+    // If the linked list is empty or we want to add at the beginning.
+    if (!head || pos == 1)
+    {
+        insertAtHead(val, head);
+        return;
+    }
+
+    int total_elements = totalElements(head);
+
+    if (abs(pos) > total_elements)
+    {
+        cout << "The given position is out of range." << endl;
+        return;
+    }
+
+    pos = pos < 0 ? total_elements + pos : pos;
+
+    Node *current = head;
+    for (int i = 1; i < pos; i++)
+    {
+        current = current->next;
+    }
+    new_node->next = current->next;
+    current->next = new_node;
+}
+
+void deleteHead(Node *&head){
+    if(!head) return;
+
+    Node *toDelete = head;
+    head = head->next;
+    delete toDelete;
+}
+
+void deleteNode(int val, Node *&head)
+{
+    if (head->data == val)
+    {
+        deleteHead(head);
+        return;
+    }
+
+    Node *curr = head;
+
+    while (curr != NULL)
+    {
+        Node *prev = curr;
+        curr = curr->next;
+        if (curr->data == val)
+        {
+            prev->next = curr->next;
+            delete curr; //to remove the node from memory
+            return;
+        }
+    }
+
+    cout << "Element not Found." << endl;
+}
+
+int search(int key, Node *head)
+{
+    int pos = 0;
+
+    while (head != NULL)
+    {
+        if (head->data == key)
+        {
+            return pos;
+        }
+        pos++;
+        head = head->next;
+    }
+
+    return -1; // Key not found in the list.
 }
 
 int main()
 {
-    node* head = NULL;
-    insertAtTail(head, 1);
-    insertAtTail(head, 2);
-    insertAtTail(head, 3);
-    insertAtTail(head, 4);
-    insertAtHead(head, 0);
-    display(head);
-    node* rev = reverse(head);
-    display(rev);
+    Node *head = NULL;
+
+    Node *new_node = new Node(1);
+
+    head = new_node;
+
+    insertAtTail(20, head);
+    insertAtTail(30, head);
+    insertAtTail(40, head);
+    insertAtHead(0, head);
+
+    insertInBettween(35, -1, head);
+
+    printLinkedList(head);
+    cout << "Total Elements: " << totalElements(head) << endl;
+    cout << "30 is in Position: " << search(30, head) << endl;
+
+    deleteNode(35, head);
+    printLinkedList(head);
+
     return 0;
 }
