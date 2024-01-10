@@ -22,6 +22,15 @@ public:
     }
 };
 
+void printVectorInt(vector<int> vec)
+{
+    for (auto val : vec)
+    {
+        cout << val << " ";
+    }
+    cout << endl;
+}
+
 int totalNodes(TreeNode *node)
 {
     if (!node) // null node or leaf node
@@ -111,9 +120,9 @@ int diameterOfTreeBrute(TreeNode *node)
     if (node == NULL)
         return 0;
 
-    int lh = heightOfTree(node->left); 
+    int lh = heightOfTree(node->left);
     int rh = heightOfTree(node->right);
-    int currDiameter = 1 + lh+ rh;
+    int currDiameter = 1 + lh + rh;
 
     int lDiameter = diameterOfTreeBrute(node->left);
     int rDiameter = diameterOfTreeBrute(node->right);
@@ -130,7 +139,7 @@ int diameterOfTree(TreeNode *node, int *height)
         return 0;
     }
 
-    int lh = 0; 
+    int lh = 0;
     int rh = 0;
 
     int lDiameter = diameterOfTree(node->left, &lh);
@@ -166,6 +175,105 @@ void levelOrderTraversalNaive(TreeNode *node)
         nodesInLevel(node, level);
 }
 
+// Time Complexity: O(n^2)
+bool isBalanced(TreeNode *node, int *height)
+{
+    if (!node)
+        return true;
+
+    int lh = 0, rh = 0;
+    if (!isBalanced(node->left, &lh) || !isBalanced(node->right, &rh))
+        return false;
+
+    *height = 1 + max(lh, rh);
+
+    if (abs(lh - rh) <= 1)
+        return true;
+
+    return false;
+}
+
+bool isComplete(TreeNode *node)
+{
+    if (!node)
+        return true;
+}
+
+bool isPerfect(TreeNode *node)
+{
+    if ((node->left == NULL) != (node->right == NULL))
+        return false;
+    if (node->left == NULL)
+        return true;
+    if ((node->left->left == NULL) != (node->right->left == NULL))
+        return false;
+    if (!isPerfect(node->left) || !isPerfect(node->right))
+        return false;
+    return true;
+}
+
+vector<int> rightView(TreeNode *node)
+{
+    if (!node)
+        return {-1};
+
+    vector<int> result;
+
+    queue<TreeNode *> queue;
+    queue.push(node);
+
+    while (!queue.empty())
+    {
+        int n = queue.size();
+
+        for (int i = 0; i < n; i++)
+        {
+            TreeNode *curr_node = queue.front();
+            queue.pop();
+            if (i == n - 1)
+                result.push_back(curr_node->val);
+
+            if (curr_node->left)
+                queue.push(curr_node->left);
+            if (curr_node->right)
+                queue.push(curr_node->right);
+        }
+    }
+
+    return result;
+}
+
+vector<int> leftView(TreeNode *node)
+{
+    if (!node)
+        return {-1};
+
+    vector<int> result;
+
+    queue<TreeNode *> queue;
+    queue.push(node);
+
+    while (!queue.empty())
+    {
+        int n = queue.size();
+
+        for (int i = 0; i < n; i++)
+        {
+            TreeNode *curr_node = queue.front();
+            queue.pop();
+            if (i == 0)
+                result.push_back(curr_node->val);
+
+            if (curr_node->left)
+                queue.push(curr_node->left);
+            if (curr_node->right)
+                queue.push(curr_node->right);
+        }
+    }
+
+    return result;
+}
+
 int main()
 {
     int h = 0;
@@ -180,6 +288,8 @@ int main()
       4   5   6   7
          / \   \
         8   9   10
+                  \
+                   11
 
     */
 
@@ -192,6 +302,7 @@ int main()
     root->left->right->left = new TreeNode(8);
     root->left->right->right = new TreeNode(9);
     root->right->left->right = new TreeNode(10);
+    root->right->left->right->right = new TreeNode(11);
 
     cout << "Height of Tree: " << heightOfTree(root) << endl;
     cout << "Diameter of Tree: " << diameterOfTree(root, &h) << endl;
@@ -216,6 +327,17 @@ int main()
     cout << "Level Order Traversal: ";
     levelOrderTraversal(root);
     cout << endl;
+
+    h = 0;
+    cout << "\nIs The Tree Balanced: " << boolalpha << isBalanced(root, &h) << endl;
+    cout << "Is The Tree Complete: " << boolalpha << isComplete(root) << endl;
+    cout << "Is The Tree Perfect: " << boolalpha << isPerfect(root) << endl;
+
+    cout << "Right View: ";
+    printVectorInt(rightView(root));
+
+    cout << "Left View: ";
+    printVectorInt(leftView(root));
 
     return 0;
 }
